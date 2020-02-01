@@ -2,17 +2,95 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoardManager : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
+public class BoardManager : MonoBehaviour {
+
+    public int columns = 8;
+    public int rows = 8;
+
+    //Obtenemos todos los componentes que pueden haber en el mapa
+    public GameObject[] emptyTile, looseTile, brokenTile, wallTiles, minionsTiles;
+
+    private Transform board;
+
+    private List<Vector2> creablesPositions = new List<Vector2>();
+
+    //Metodo público que inicializa el mapa
+    public void SetupScene(int level)
     {
-        
+        BoardSetup();
+        initializeList();
+        LayoutObjectAtRandom(wallTiles, 6, 10);
+        LayoutObjectAtRandom(brokenTile, 1, 3);
+
+        int looseSpawn = (int)Mathf.Log(level, 2); //Aparecen tantos enemigos como logaritmo en base 2 de level
+        LayoutObjectAtRandom(looseTile, looseSpawn, looseSpawn);
+
     }
 
-    // Update is called once per frame
-    void Update()
+    //Contruye un mapa de tamaño: columnas+1 x filas+1
+    public void BoardSetup()
     {
-        
+        board = new GameObject("Board").transform;
+
+        for(int x = -1; x < columns + 1; x++)
+        {
+            for (int y = -1; y < rows + 1; y++)
+            {
+                //GameObject toInstanciate = GetRandomInArray(floorTiles);
+
+                if (x == -1 || y == -1 || x == columns || y == rows)
+                {
+                    //toInstanciate = GetRandomInArray(LimitWallTiles);
+                }
+
+
+                //GameObject floor = Instantiate(toInstanciate, new Vector2(x, y), Quaternion.identity) as GameObject;
+                //floor.transform.SetParent(board);
+                
+            }
+        }
+    }
+
+    //Obtiene un elemento aleatorio de un array
+    GameObject GetRandomInArray(GameObject[] array)
+    {
+        return array[Random.Range(0, array.Length)];
+    }
+
+    //Inicializa la zona donde pueden aparecer objetos
+    void initializeList()
+    {
+        creablesPositions.Clear();
+        for (int x = 1; x < columns - 1; x++)
+        {
+            for (int y = 1; y < rows - 1; y++)
+            {
+                creablesPositions.Add(new Vector2(x, y));
+            }
+        }
+    }
+
+    //Devuelve un objeto una posición dentro de la lista y lo elimina para que no se repita
+    Vector2 RandomPosition()
+    {
+        int randomIndex = Random.Range(0, creablesPositions.Count);
+        Vector2 randomPosition = creablesPositions[randomIndex];
+        creablesPositions.RemoveAt(randomIndex);
+        return randomPosition;
+    }
+
+
+    //Genera un tipo de objeto entre min y max veces en la zona de objetos creables
+    void LayoutObjectAtRandom(GameObject[] tileArray, int min, int max)
+    {
+        int objectCount = Random.Range(min, max + 1);
+
+        for (int i = 0; i < objectCount; i++)
+        {
+            Vector2 randomPosition = RandomPosition();
+            GameObject tileChoice = GetRandomInArray(tileArray);
+            GameObject tileObject = Instantiate(tileChoice, randomPosition, Quaternion.identity) as GameObject;
+            tileObject.transform.SetParent(board);
+        }
     }
 }

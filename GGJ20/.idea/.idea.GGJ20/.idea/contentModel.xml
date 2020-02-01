@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\juanm\.Rider2019.1\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\juanm\.Rider2019.1\system\resharper-host\local\Transient\ReSharperHost\v191\SolutionCaches\_GGJ20.-1014101312.00" t="ExcludeRecursive" />
+    <e p="D:\Master\GGJ20\GGJ20" t="IncludeRecursive">
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Demigiant" t="Include">
+          <e p="DOTween" t="Include">
+            <e p="Modules" t="Include">
+              <e p="DOTweenModuleAudio.cs" t="Include" />
+              <e p="DOTweenModulePhysics.cs" t="Include" />
+              <e p="DOTweenModulePhysics2D.cs" t="Include" />
+              <e p="DOTweenModuleSprite.cs" t="Include" />
+              <e p="DOTweenModuleUI.cs" t="Include" />
+              <e p="DOTweenModuleUnityVersion.cs" t="Include" />
+              <e p="DOTweenModuleUtils.cs" t="Include" />
+            </e>
+            <e p="readme.txt" t="Include" />
+          </e>
+        </e>
+        <e p="Repair" t="Include">
+          <e p="Resources" t="Include">
+            <e p="CardData.cs" t="Include" />
+          </e>
+          <e p="Scripts" t="Include">
+            <e p="BoardManager.cs" t="Include" />
+            <e p="DeckManager.cs" t="Include" />
+            <e p="GameManager.cs" t="Include" />
+            <e p="Minion.cs" t="Include" />
+            <e p="MovingObject.cs" t="Include" />
+          </e>
+          <e p="Shaders" t="Include">
+            <e p="pararellenar.shader" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="GGJ20.sln" t="IncludeFlat" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="Packages" t="ExcludeRecursive" />
+      <e p="Temp\bin" t="ExcludeRecursive" />
+    </e>
+  </component>
+</project>
