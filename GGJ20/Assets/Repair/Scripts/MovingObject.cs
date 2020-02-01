@@ -2,7 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class MovingObject : MonoBehaviour {
+public abstract class MovingObject : MonoBehaviour 
+{
+
+    public enum MovementDirection
+    {
+        UP,
+        DOWN,
+        RIGHT,
+        LEFT
+    }
 
     public float moveTime = 0.1f;
     public LayerMask blockingLayer;

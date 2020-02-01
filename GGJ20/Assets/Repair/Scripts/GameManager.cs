@@ -11,23 +11,13 @@ public class GameManager : MonoBehaviour {
     public float levelStartDelay = 2f;
     public bool doingSetup;
 
-    public int playerFoodPoints = 100;
-    [HideInInspector] public bool playersTurn = true;
-
-    //Objeto mapa
+    public int playerLife = 6;
     private BoardManager boardScript;
 
     private List<Minion> minions = new List<Minion>();
-    private bool enemiesMoving;
 
     private int level = 1;
-
-    private GameObject restartButton;
-    private GameObject levelImage;
-    private Text levelText;
     
-    
-
     private void Awake()
     {
         if(GameManager.instance == null)
@@ -41,15 +31,7 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
         boardScript = GetComponent<BoardManager>();
         
-    }
-
-    private void Update()
-    {
-        if (!playersTurn && !enemiesMoving && !doingSetup)
-        {
-            StartCoroutine(MoveMinions());
-        }
-    
+        
     }
 
     private void OnDisable()
@@ -63,7 +45,6 @@ public class GameManager : MonoBehaviour {
         SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
 
-    //Pasa al siguiente nivel
     private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
     {
         
@@ -71,59 +52,30 @@ public class GameManager : MonoBehaviour {
         level++;
     }
 
-    //Metodo que inicializa el juego
     private void InitGame()
     {
-        doingSetup = true;
-        levelImage = GameObject.Find("LevelImage");
-        levelText = GameObject.Find("LevelText").GetComponent<Text>();
-        levelText.text = "Day " + level;
-        levelImage.SetActive(true);
-        restartButton = GameObject.Find("Restart");
-        restartButton.SetActive(false);
-        
+
         boardScript.SetupScene(level);
 
-        Invoke("HideLevelImage", levelStartDelay);
     }
-
-    //Esconde la imagen del menu
-    private void HideLevelImage()
-    {
-        levelImage.SetActive(false);
-        doingSetup = false;
-    }
-
-    //Finaliza la partida
+    
     public void GameOver()
     {
-        levelText.text = "YOU DIED";
-        levelImage.SetActive(true);
-        restartButton.SetActive(true);
         enabled = false;
     }
 
-    //Corrutina que mueve a los enemigos
-    IEnumerator MoveMinions()
+    IEnumerator MoveMinions(MovingObject.MovementDirection movDir)
     {
-        enemiesMoving = true;
 
         yield return new WaitForSeconds(turnDelay);
-        if(minions.Count == 0)
-        {
-            yield return new WaitForSeconds(turnDelay); //Si no hay enemigos espera hasta coger la siguiente orden del jugador
-        }
 
         for(int i=0; i<minions.Count; i++)
         {
-            //mover minion
+            minions[i].MoveMinion(movDir);
             yield return new WaitForSeconds(minions[i].moveTime);
         }
-        playersTurn = true;
-        enemiesMoving = false;
     }
 
-    //Añade a un enemigo a la lista de enemigos
     public void AddMinionToLIst(Minion enemy)
     {
         minions.Add(enemy);

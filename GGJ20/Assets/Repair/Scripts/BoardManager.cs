@@ -8,7 +8,7 @@ public class BoardManager : MonoBehaviour {
     public int rows = 8;
 
     //Obtenemos todos los componentes que pueden haber en el mapa
-    public GameObject[] emptyTile, looseTile, brokenTile, wallTiles, minionsTiles;
+    public GameObject[] floorTiles, looseTiles, brokenTiles, wallTiles, minionsTiles;
 
     private Transform board;
 
@@ -17,13 +17,15 @@ public class BoardManager : MonoBehaviour {
     //Metodo público que inicializa el mapa
     public void SetupScene(int level)
     {
-        BoardSetup();
         initializeList();
-        LayoutObjectAtRandom(wallTiles, 6, 10);
-        LayoutObjectAtRandom(brokenTile, 1, 3);
+        BoardSetup();
+        LayoutObjectAtRandom(brokenTiles, 1, 3);
 
-        int looseSpawn = (int)Mathf.Log(level, 2); //Aparecen tantos enemigos como logaritmo en base 2 de level
-        LayoutObjectAtRandom(looseTile, looseSpawn, looseSpawn);
+        int looseToSpawn = 4; //(int)Mathf.Log(level, 2); //Aparecen tantos enemigos como logaritmo en base 2 de level
+        LayoutObjectAtRandom(looseTiles, looseToSpawn, looseToSpawn);
+
+        int minionsToSpawn = 3;
+        LayoutObjectAtRandom(minionsTiles, minionsToSpawn, minionsToSpawn);
 
     }
 
@@ -36,16 +38,16 @@ public class BoardManager : MonoBehaviour {
         {
             for (int y = -1; y < rows + 1; y++)
             {
-                //GameObject toInstanciate = GetRandomInArray(floorTiles);
+                GameObject toInstanciate = GetRandomInArray(floorTiles);
 
                 if (x == -1 || y == -1 || x == columns || y == rows)
                 {
-                    //toInstanciate = GetRandomInArray(LimitWallTiles);
+                    toInstanciate = GetRandomInArray(wallTiles);
                 }
 
 
-                //GameObject floor = Instantiate(toInstanciate, new Vector2(x, y), Quaternion.identity) as GameObject;
-                //floor.transform.SetParent(board);
+                GameObject floor = Instantiate(toInstanciate, new Vector2(x, y), Quaternion.identity) as GameObject;
+                floor.transform.SetParent(board);
                 
             }
         }

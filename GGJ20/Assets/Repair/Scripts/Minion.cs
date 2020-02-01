@@ -10,7 +10,6 @@ public class Minion : MovingObject
 
     private Animator animator;
     private Transform target;
-    private bool skipMove;
 
 
     protected override void Awake()
@@ -26,34 +25,34 @@ public class Minion : MovingObject
         base.Start();
     }
 
-    //controla que el enemigo se mueva cada 2 turnos, genera el sonido del movimiento, se mueve y devuelve si se ha podido mover.
     protected override bool AttemptMove(int xDir, int yDir)
     {
-        if(skipMove)
-        {
-            skipMove = false;
-            return false;
-        }
+
         bool canMove = base.AttemptMove(xDir, yDir);
 
-        skipMove = true;
         return canMove;
     }
 
-    //Calcula la posicion del jugador 
-    public void MoveEnemy()
+    public void MoveMinion(MovementDirection direction)
     {
-        int xDir = 0;
-        int yDir = 0;
+        int xDir = 0, yDir = 0;
 
-        if(Mathf.Abs(target.position.x - transform.position.x) < float.Epsilon)
+        switch (direction)
         {
-            yDir = target.position.y > transform.position.y ? 1 : -1;
+            case MovementDirection.UP:
+                yDir = 1;
+                break;
+            case MovementDirection.DOWN:
+                yDir = -1;
+                break;
+            case MovementDirection.RIGHT:
+                xDir = 1;
+                break;
+            case MovementDirection.LEFT:
+                xDir = -1;
+                break;
         }
-        else
-        {
-            xDir = target.position.x > transform.position.x ? 1 : -1;
-        }
+
         AttemptMove(xDir, yDir);
     }
 
